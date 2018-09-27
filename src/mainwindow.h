@@ -2,7 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "decoder.h"
+#include "chip8emu.h"
+
 QT_BEGIN_NAMESPACE
 class QPoint;
 class QTextEdit;
@@ -19,10 +20,14 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-signals:
+signals:    
     void fileLoaded(QByteArray &data);
+
     void startEmulation();
     void stopEmulation();
+
+    void startDisassembler();
+
 public slots:
     void about();
 
@@ -33,15 +38,19 @@ private slots:
     void filePrintPreview();
     void filePrintPdf();
     void printPreview(QPrinter *);
+    void showAsmText(QStringList &text);
+
 private:
     void setupEditor();
     void setupFileMenu();
     void setupPrintMenu();
     void setupHelpMenu();
+    void setupEmulator();
+
     QPoint calcDeskTopCenter(int width,int height);
 
     QTextEdit *editor;
-    Decoder *ch8Decoder;
+    Chip8Emu *ch8Decoder;
     QRect desktopRect;
     // Highlighter *highlighter;
 };

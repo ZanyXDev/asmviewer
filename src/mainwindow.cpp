@@ -32,9 +32,8 @@ MainWindow::MainWindow(QWidget *parent)
     setupPrintMenu();
     setupHelpMenu();
     setupEditor();
+    setupEmulator();
 
-    ch8Decoder = new Decoder(this);
-    QObject::connect(this,&MainWindow::fileLoaded,ch8Decoder,&Decoder::toAsm);
     setCentralWidget(editor);
     setWindowTitle(tr("CHIP-8 Assembler syntax highlighter"));
 
@@ -75,7 +74,9 @@ void MainWindow::fileOpen()
             return;
         }
         QByteArray tmp = file.readAll();
+
         emit fileLoaded( tmp );
+        emit startDisassembler();
     }
 }
 
@@ -106,6 +107,15 @@ void MainWindow::printPreview(QPrinter *printer)
 #else
     editor->print(printer);
 #endif
+}
+
+void MainWindow::showAsmText(QStringList &text)
+{
+    if (!text.isEmpty()){
+        foreach (const QString &str, text) {
+            editor->append(str);
+        }
+    }
 }
 
 void MainWindow::filePrintPdf()
@@ -172,6 +182,20 @@ void MainWindow::setupHelpMenu()
 
     helpMenu->addAction(tr("&About"), this, SLOT(about()));
     helpMenu->addAction(tr("About &Qt"), qApp, SLOT(aboutQt()));
+}
+
+void MainWindow::setupEmulator()
+{
+    ch8Decoder = new Chip8Emu(this);
+
+    connect(this,&MainWindow::fileLoaded,
+            ch8Decoder,&Chip8Emu::loadData2Memory);
+
+    connect(this,&MainWindow::startDisassembler,
+            ch8Decoder,&Chip8Emu::startDisassembler);
+
+    connect(ch8Decoder,&Chip8Emu::assemblerTextListing,
+            this,&MainWindow::showAsmText);
 }
 
 MainWindow::~MainWindow()
