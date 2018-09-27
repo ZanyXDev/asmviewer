@@ -1,18 +1,56 @@
-#ifndef DECODER_H
-#define DECODER_H
+#ifndef CHIP8EMU_H
+#define CHIP8EMU_H
 
 #include <QObject>
 
-class Decoder : public QObject
+QT_BEGIN_NAMESPACE
+class QByteArray;
+class QStringList;
+class QPair;
+QT_END_NAMESPACE
+
+
+#define RAM_SIZE 4096
+#define START_ADDR 0x200
+
+class Chip8Emu : public QObject
 {
     Q_OBJECT
 public:
-    explicit Decoder(QObject *parent = nullptr);
+    explicit Chip8Emu(QObject *parent = nullptr);
+
+    enum WorkModeFlag {
+        Emulation = 0x0000,
+        Debuging = 0x0001,
+        SuperMode = 0x0003,
+        SuperModeDebug =  Debuging | SuperMode,
+        UnDefined = 0x0020
+    };
+    Q_DECLARE_FLAGS(WorkMode, WorkModeFlag)
 
 signals:
+    void assemblerTextListing(QStringList &text);
 
 public slots:
-    void toAsm (QByteArray &data);
+    void loadData2Memory(QByteArray &data);
+    void startEmulation();
+    void stopEmulation();
+    void startDisassembler();
+
+private:
+
+    void decreaseTimers();
+    QString executeNextOpcode();
+
+    unsigned short PC;   // mem offset counter
+    QByteArray m_memory; // 4k ram memory
+
+    bool m_stopped;
+    short delay_timer;         // delay timer;
+    short sound_timer;         // sound timer;
+    int  opcode_count;
+    int m_mode;
+
 };
 
-#endif // DECODER_H
+#endif // CHIP8EMU_H
