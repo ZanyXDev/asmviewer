@@ -4,7 +4,11 @@
 #include <QMainWindow>
 #include "decoder.h"
 QT_BEGIN_NAMESPACE
+class QPoint;
 class QTextEdit;
+class QByteArray;
+class QMenu;
+class QPrinter;
 class QByteArray;
 QT_END_NAMESPACE
 
@@ -17,17 +21,29 @@ public:
     ~MainWindow();
 signals:
     void fileLoaded(QByteArray &data);
+    void startEmulation();
+    void stopEmulation();
 public slots:
     void about();
-    void openFile(const QString &path = QString());
+
+private slots:
+    void fileOpen();
+    bool fileSave();
+    void filePrint();
+    void filePrintPreview();
+    void filePrintPdf();
+    void printPreview(QPrinter *);
 private:
     void setupEditor();
     void setupFileMenu();
+    void setupPrintMenu();
     void setupHelpMenu();
+    QPoint calcDeskTopCenter(int width,int height);
 
     QTextEdit *editor;
     Decoder *ch8Decoder;
-   // Highlighter *highlighter;
+    QRect desktopRect;
+    // Highlighter *highlighter;
 };
 
 #endif // MAINWINDOW_H
