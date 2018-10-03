@@ -58,6 +58,8 @@ void MainWindow::about()
                           "highlighting rules using regular expressions.</p>"));
 }
 
+
+
 void MainWindow::fileOpen()
 {
     QString selectedFilter;
@@ -150,7 +152,7 @@ void MainWindow::setupEditor()
 
     editor = new QTextEdit;
     editor->setFont(font);
-
+    editor->setPlainText(" ");
     //highlighter = new Highlighter(editor->document());
 }
 
@@ -196,6 +198,11 @@ void MainWindow::setupEmulator()
 
     connect(ch8Decoder,&Chip8Emu::assemblerTextListing,
             this,&MainWindow::showAsmText);
+
+    connect(ch8Decoder,&Chip8Emu::showDecodeOpCode,
+            editor,&QTextEdit::append);
+
+
 }
 
 MainWindow::~MainWindow()
