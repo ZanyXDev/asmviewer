@@ -2,11 +2,12 @@
 #define CHIP8EMU_H
 
 #include <QObject>
+#include <QPair>
+#include <QVector>
 
 QT_BEGIN_NAMESPACE
 class QByteArray;
 class QStringList;
-class QPair;
 QT_END_NAMESPACE
 
 
@@ -29,7 +30,9 @@ public:
     Q_DECLARE_FLAGS(WorkMode, WorkModeFlag)
 
 signals:
+    void showDecodeOpCode(QString &text);
     void assemblerTextListing(QStringList &text);
+    void finishExecute();
 
 public slots:
     void loadData2Memory(QByteArray &data);
@@ -38,9 +41,11 @@ public slots:
     void startDisassembler();
 
 private:
-
     void decreaseTimers();
-    QString executeNextOpcode();
+    void executeNextOpcode();
+
+    QVector <QPair <int,QString> > progText;
+    QPair <int, QString> currentLine;
 
     unsigned short PC;   // mem offset counter
     QByteArray m_memory; // 4k ram memory
@@ -50,6 +55,7 @@ private:
     short sound_timer;         // sound timer;
     int  opcode_count;
     int m_mode;
+    bool m_enableListing;
 
 };
 
