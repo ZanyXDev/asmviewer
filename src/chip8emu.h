@@ -2,8 +2,7 @@
 #define CHIP8EMU_H
 
 #include <QObject>
-#include <QPair>
-#include <QVector>
+
 
 QT_BEGIN_NAMESPACE
 class QByteArray;
@@ -31,7 +30,7 @@ public:
 
 signals:
     void showDecodeOpCode(QString &text);
-    void assemblerTextListing(QStringList &text);
+
     void finishExecute();
 
 public slots:
@@ -44,16 +43,13 @@ private:
     void decreaseTimers();
     void executeNextOpcode();
 
-    QVector <QPair <int,QString> > progText;
-    QPair <int, QString> currentLine;
-
     unsigned short PC;   // mem offset counter
     QByteArray m_memory; // 4k ram memory
 
     bool m_stopped;
     short delay_timer;         // delay timer;
     short sound_timer;         // sound timer;
-    int  opcode_count;
+    int opcode_count;
     int m_mode;
     bool m_enableListing;
 
