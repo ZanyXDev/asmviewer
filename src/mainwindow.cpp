@@ -152,7 +152,7 @@ void MainWindow::setupEditor()
 
     editor = new QTextEdit;
     editor->setFont(font);
-    editor->setPlainText(" ");
+    editor->append("Address\tInstruction\tPseudocode\tComments");
     //highlighter = new Highlighter(editor->document());
 }
 
@@ -196,13 +196,8 @@ void MainWindow::setupEmulator()
     connect(this,&MainWindow::startDisassembler,
             ch8Decoder,&Chip8Emu::startDisassembler);
 
-    connect(ch8Decoder,&Chip8Emu::assemblerTextListing,
-            this,&MainWindow::showAsmText);
-
     connect(ch8Decoder,&Chip8Emu::showDecodeOpCode,
             editor,&QTextEdit::append);
-
-
 }
 
 MainWindow::~MainWindow()
