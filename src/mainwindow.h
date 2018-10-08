@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "chip8emu.h"
+#include "highlighter.h"
 
 QT_BEGIN_NAMESPACE
 class QPoint;
@@ -52,7 +53,7 @@ private:
     QTextEdit *editor;
     Chip8Emu *ch8Decoder;
     QRect desktopRect;
-    // Highlighter *highlighter;
+     Highlighter *highlighter;
 };
 
 #endif // MAINWINDOW_H

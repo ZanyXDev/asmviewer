@@ -8,6 +8,7 @@
 #include <QToolBar>
 #include <QApplication>
 #include <QDesktopWidget>
+#include <QDebug>
 
 #if defined(QT_PRINTSUPPORT_LIB)
 #include <QtPrintSupport/qtprintsupportglobal.h>
@@ -153,7 +154,7 @@ void MainWindow::setupEditor()
     editor = new QTextEdit;
     editor->setFont(font);
     editor->append("Address\tInstruction\tPseudocode\tComments");
-    //highlighter = new Highlighter(editor->document());
+    highlighter = new Highlighter(editor->document());
 }
 
 void MainWindow::setupFileMenu()
@@ -202,6 +203,7 @@ void MainWindow::setupEmulator()
 
 MainWindow::~MainWindow()
 {
+    //qDebug() << "Shutdown";
 
 }
 
