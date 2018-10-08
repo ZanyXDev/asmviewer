@@ -209,7 +209,7 @@ void Chip8Emu::executeNextOpcode()
         }
         break;
     case 0xA: // Annn LD I, nnn Значение регистра I устанавливается в nnn
-        asmTextString.append(QString("LD I, 0x%1 \t ; SET register I to 0x%1").arg( NNN,0,16 ));
+        asmTextString.append(QString("LD [I], 0x%1 \t ; SET register I to 0x%1").arg( NNN,0,16 ));
         break;
     case 0xB:// Bnnn JP V0, nnn Перейти по адресу nnn + значение в регистре V0.
         asmTextString.append(QString("JP V0, 0x%1 \t ; Jump to address V0 + %1").arg( NNN,0,16 ));
@@ -248,7 +248,7 @@ void Chip8Emu::executeNextOpcode()
             asmTextString.append(QString("LD ST, V%1 \t ; SET register SOUND_TIMER = V%1 ").arg( X,0,16 ) );
             break;
         case 0x1E: // Fx1E ADD I, Vx Сложить значения регистров I и Vx, результат сохранить в I. Т.е. I = I + Vx
-            asmTextString.append(QString("ADD I, V%1 \t ; SET register I = I + V%1 ").arg( X,0,16 ) );
+            asmTextString.append(QString("ADD [I], V%1 \t ; SET register I = I + V%1 ").arg( X,0,16 ) );
             break;
         case 0x29: // Fx29 LD F, Vx Используется для вывода на экран символов встроенного шрифта размером 4x5 пикселей.
             // Команда загружает в регистр I адрес спрайта, значение которого находится в Vx.
