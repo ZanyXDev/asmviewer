@@ -23,11 +23,13 @@ CONFIG += c++11
 SOURCES += \
         src/main.cpp \
         src/mainwindow.cpp \
-    src/chip8emu.cpp
+	src/chip8emu.cpp \
+	src/highlighter.cpp
 
 HEADERS += \
         src/mainwindow.h \
-    src/chip8emu.h
+	src/chip8emu.h \
+	src/highlighter.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
