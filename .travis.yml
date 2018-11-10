@@ -10,7 +10,7 @@ before_install:
 
 script: 
   - qmake -project
-  - qmake -asmviewer.pro
+  - qmake asmviewer.pro
   - make
   - ls -lhsa asmviewer
 
